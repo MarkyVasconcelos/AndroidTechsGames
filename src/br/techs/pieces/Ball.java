@@ -26,8 +26,9 @@ public class Ball extends Entity {
 		paint = new Paint();
 		paint.setColor(Color.RED);
 	}
-	
-	public Ball(Vector2D pos, Vector2D dir, float speed, PiecesManager manager, int color) {
+
+	public Ball(Vector2D pos, Vector2D dir, float speed, PiecesManager manager,
+			int color) {
 		super(new Rect());
 
 		this.pos = pos;
@@ -36,7 +37,7 @@ public class Ball extends Entity {
 
 		paint = new Paint();
 		paint.setColor(color);
-		
+
 		pieces = manager;
 	}
 
@@ -63,9 +64,9 @@ public class Ball extends Entity {
 		for (Entity ent : pieces.getPieces()) {
 			if (ent == this)
 				continue;
-			if (ent instanceof Wall)
+			if (ent instanceof BlockableEntity)
 				if (bounds.intersect(ent.getBounds())) {
-					Vector2D n = ((Wall) ent).getNormal();
+					Vector2D n = ((BlockableEntity) ent).getNormal();
 					// r = v-2 * v.dot( n ) * n
 					dir = dir.minus(n.multiply(2).multiply(dir.dot(n)));
 					break;

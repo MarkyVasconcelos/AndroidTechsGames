@@ -6,16 +6,22 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class Wall extends BlockableEntity {
+public class Pad extends BlockableEntity {
 	private Paint wallPaint;
 	private Vector2D normal;
 
-	public Wall(Rect bounds, Vector2D normal) {
-		super(bounds);
+	public Pad(Vector2D normal) {
+		super(null);
 		wallPaint = new Paint();
 		wallPaint.setColor(Color.GRAY);
-		
+
 		this.normal = normal;
+
+		setYCenter(600);
+	}
+
+	public void setYCenter(float f) {
+		setBounds(new Rect(80, (int) f - 100, 90, (int) f + 100));
 	}
 
 	@Override
@@ -29,8 +35,8 @@ public class Wall extends BlockableEntity {
 	public void processAI() {
 		// Do nothing, walls don't think
 	}
-	
-	public Vector2D getNormal(){
+
+	public Vector2D getNormal() {
 		return normal;
 	}
 
