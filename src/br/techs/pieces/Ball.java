@@ -26,6 +26,19 @@ public class Ball extends Entity {
 		paint = new Paint();
 		paint.setColor(Color.RED);
 	}
+	
+	public Ball(Vector2D pos, Vector2D dir, float speed, PiecesManager manager, int color) {
+		super(new Rect());
+
+		this.pos = pos;
+		this.dir = dir;
+		this.speed = speed;
+
+		paint = new Paint();
+		paint.setColor(color);
+		
+		pieces = manager;
+	}
 
 	public void setPiecesManager(PiecesManager manager) {
 		pieces = manager;

@@ -41,13 +41,21 @@ public class GameView extends View implements Runnable {
 
 		manager = new PiecesManager();
 
-		Ball ball = new Ball(new Vector2D(60, 60), new Vector2D(1, 10).normalize(), 2);
-		ball.setPiecesManager(manager);
-		manager.addPiece(ball);
+		manager.addPiece(new Ball(new Vector2D(60, 60), new Vector2D(1, 10)
+				.normalize(), 3, manager, Color.CYAN));
+		manager.addPiece(new Ball(new Vector2D(60, 60), new Vector2D(3, 8)
+				.normalize(), 2, manager, Color.BLUE));
+		manager.addPiece(new Ball(new Vector2D(60, 60), new Vector2D(3, 2)
+				.normalize(), 4, manager, Color.RED));
+		manager.addPiece(new Ball(new Vector2D(60, 60), new Vector2D(4, 1)
+				.normalize(), 6, manager, Color.YELLOW));
+		manager.addPiece(new Ball(new Vector2D(60, 60), new Vector2D(6, 6)
+				.normalize(), 5, manager, Color.WHITE));
+
 		manager.addPiece(new Wall(new Rect(0, 0, 10, 1024), new Vector2D(1, 0)));
 		manager.addPiece(new Wall(new Rect(590, 0, 600, 1024), new Vector2D(-1,
 				0)));
-		manager.addPiece(new Wall(new Rect(0, 0, 600, 10), new Vector2D(0,-1)));
+		manager.addPiece(new Wall(new Rect(0, 0, 600, 10), new Vector2D(0, -1)));
 		manager.addPiece(new Wall(new Rect(0, 1014, 600, 1024), new Vector2D(0,
 				1)));
 	}
