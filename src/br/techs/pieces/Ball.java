@@ -69,6 +69,9 @@ public class Ball extends Entity {
 					Vector2D n = ((BlockableEntity) ent).getNormal();
 					// r = v-2 * v.dot( n ) * n
 					dir = dir.minus(n.multiply(2).multiply(dir.dot(n)));
+					
+					if(ent instanceof Wall)
+						((Wall)ent).notifyHit();
 					break;
 				}
 		}

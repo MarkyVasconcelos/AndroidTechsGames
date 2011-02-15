@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import br.techs.PiecesManager;
+import br.techs.hud.Scoreboard;
 import br.techs.math.Vector2D;
 import br.techs.pieces.Ball;
 import br.techs.pieces.Pad;
@@ -55,18 +56,10 @@ public class GameView extends View implements Runnable {
 		Random rdm = new Random();
 
 		for (int i = 0; i < 1; i++) {
-			Vector2D vec = new Vector2D(10, 10);
-			vec.rotateMe(rdm.nextInt(361));
-
 			Vector2D dir = new Vector2D(10, 8);
 
-			// Ball ball = new Ball(new Vector2D(20 + rdm.nextInt(200),
-			// 20 + rdm.nextInt(200)), vec.normalize(),
-			// 1 + rdm.nextInt(10), manager, Color.rgb(rdm.nextInt(256),
-			// rdm.nextInt(256), rdm.nextInt(256)));
-
-			Ball ball = new Ball(new Vector2D(300, 600), dir.normalize(),
-					8, manager, Color.rgb(255, 255, 255));
+			Ball ball = new Ball(new Vector2D(300, 600), dir.normalize(), 8,
+					manager, Color.rgb(255, 255, 255));
 			manager.addPiece(ball);
 		}
 
@@ -74,10 +67,11 @@ public class GameView extends View implements Runnable {
 				new Vector2D(1, 0)));
 		manager.addPiece(new Wall(new Rect(width - 10, 0, width, height),
 				new Vector2D(-1, 0)));
-		manager.addPiece(new Wall(new Rect(0, 0, width, 10),
-				new Vector2D(0, -1)));
-		manager.addPiece(new Wall(new Rect(0, height - 10, width, height),
-				new Vector2D(0, 1)));
+		Wall north = new Wall(new Rect(0, 0, width, 10), new Vector2D(0, -1));
+		manager.addPiece(north);
+		Wall south = new Wall(new Rect(0, height - 10, width, height),
+				new Vector2D(0, 1));
+		manager.addPiece(south);
 
 		// weastPad = new Pad(new Vector2D(1, 0), Axis.Y_AXIS, 80);
 		// manager.addPiece(weastPad);
@@ -87,6 +81,8 @@ public class GameView extends View implements Runnable {
 		// manager.addPiece(eastPad);
 		southPad = new Pad(new Vector2D(0, 1), Axis.X_AXIS, 944);
 		manager.addPiece(southPad);
+
+		manager.addPiece(new Scoreboard(north, south));
 	}
 
 	public void onDraw(Canvas canvas) {
@@ -96,10 +92,27 @@ public class GameView extends View implements Runnable {
 		canvas.restore();
 	}
 
+	private void createBall() {
+		Random rdm = new Random();
+
+		Vector2D vec = new Vector2D(10, 10);
+		vec.rotateMe(rdm.nextInt(361));
+
+		Ball ball = new Ball(new Vector2D(300, 600), vec.normalize(),
+				3 + rdm.nextInt(7), manager, Color.rgb(50+rdm.nextInt(206),
+						50+rdm.nextInt(206), 50+rdm.nextInt(206)));
+
+		manager.addPiece(ball);
+	}
+
+	private int loops = 1;
+
 	@Override
 	public void run() {
 		while (true) {
 			try {
+				if (loops % 500 == 0)
+					createBall();
 				manager.processAI();
 
 				Message msg = new Message();
@@ -107,6 +120,7 @@ public class GameView extends View implements Runnable {
 				handler.sendMessage(msg);
 
 				Thread.sleep(10);
+				loops++;
 			} catch (Exception e) {
 			}
 		}
@@ -130,4 +144,5 @@ public class GameView extends View implements Runnable {
 
 		return true;
 	}
+
 }

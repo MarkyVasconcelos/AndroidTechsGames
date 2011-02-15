@@ -56,8 +56,8 @@ public class Pad extends BlockableEntity {
 		X_AXIS {
 			@Override
 			void atualize(Pad pad, float x, float y) {
-				pad.setBounds(new Rect((int) x - 100,
-						pad.defaultDistanceFromAxis, (int) x + 100,
+				pad.setBounds(new Rect((int) x - 150,
+						pad.defaultDistanceFromAxis, (int) x + 150,
 						pad.defaultDistanceFromAxis + 10));
 			}
 		},
@@ -65,8 +65,8 @@ public class Pad extends BlockableEntity {
 			@Override
 			void atualize(Pad pad, float x, float y) {
 				pad.setBounds(new Rect(pad.defaultDistanceFromAxis,
-						(int) y - 100, pad.defaultDistanceFromAxis + 10,
-						(int) y + 100));
+						(int) y - 150, pad.defaultDistanceFromAxis + 10,
+						(int) y + 150));
 			}
 
 		};
