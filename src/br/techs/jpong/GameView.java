@@ -16,15 +16,20 @@ import br.techs.PiecesManager;
 import br.techs.math.Vector2D;
 import br.techs.pieces.Ball;
 import br.techs.pieces.Pad;
+import br.techs.pieces.Pad.Axis;
 import br.techs.pieces.Wall;
 
 public class GameView extends View implements Runnable {
+	private int width = 600, height = 1024;
 	private Paint background;
 	private Handler handler;
 
 	private PiecesManager manager;
 
-	private Pad pad;
+	private Pad weastPad;
+	private Pad northPad;
+	private Pad eastPad;
+	private Pad southPad;
 
 	public GameView(Context context) {
 		super(context);
@@ -51,7 +56,7 @@ public class GameView extends View implements Runnable {
 
 		for (int i = 0; i < 12; i++) {
 			Vector2D vec = new Vector2D(10, 10);
-			vec.rotate(rdm.nextInt(361));
+			vec.rotateMe(rdm.nextInt(361));
 
 			Ball ball = new Ball(new Vector2D(20 + rdm.nextInt(200),
 					20 + rdm.nextInt(200)), vec.normalize(),
@@ -60,20 +65,28 @@ public class GameView extends View implements Runnable {
 			manager.addPiece(ball);
 		}
 
-		manager.addPiece(new Wall(new Rect(0, 0, 10, 1024), new Vector2D(1, 0)));
-		manager.addPiece(new Wall(new Rect(590, 0, 600, 1024), new Vector2D(-1,
-				0)));
-		manager.addPiece(new Wall(new Rect(0, 0, 600, 10), new Vector2D(0, -1)));
-		manager.addPiece(new Wall(new Rect(0, 1014, 600, 1024), new Vector2D(0,
-				1)));
+		manager.addPiece(new Wall(new Rect(0, 0, 10, height),
+				new Vector2D(1, 0)));
+		manager.addPiece(new Wall(new Rect(width - 10, 0, width, height),
+				new Vector2D(-1, 0)));
+		manager.addPiece(new Wall(new Rect(0, 0, width, 10),
+				new Vector2D(0, -1)));
+		manager.addPiece(new Wall(new Rect(0, height - 10, width, height),
+				new Vector2D(0, 1)));
 
-		pad = new Pad(new Vector2D(1, 0));
-		manager.addPiece(pad);
+		weastPad = new Pad(new Vector2D(1, 0), Axis.Y_AXIS, 80);
+		manager.addPiece(weastPad);
+		northPad = new Pad(new Vector2D(0, -1), Axis.X_AXIS, 80);
+		manager.addPiece(northPad);
+		eastPad = new Pad(new Vector2D(-1, 0), Axis.Y_AXIS, 520);
+		manager.addPiece(eastPad);
+		southPad = new Pad(new Vector2D(0, 1), Axis.X_AXIS, 944);
+		manager.addPiece(southPad);
 	}
 
 	public void onDraw(Canvas canvas) {
 		canvas.save();
-		canvas.drawRect(0, 0, 600, 1024, background);
+		canvas.drawRect(0, 0, getWidth(), getHeight(), background);
 		manager.draw(canvas);
 		canvas.restore();
 	}
@@ -99,8 +112,10 @@ public class GameView extends View implements Runnable {
 	}
 
 	public boolean onTouchEvent(MotionEvent evt) {
-		pad.setYCenter(evt.getY());
+		weastPad.notifyMotionEvent(evt);
+		northPad.notifyMotionEvent(evt);
+		eastPad.notifyMotionEvent(evt);
+		southPad.notifyMotionEvent(evt);
 		return true;
 	}
-
 }
