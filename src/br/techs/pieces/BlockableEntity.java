@@ -9,5 +9,4 @@ public abstract class BlockableEntity extends Entity {
 	}
 
 	public abstract Vector2D getNormal();
-
 }

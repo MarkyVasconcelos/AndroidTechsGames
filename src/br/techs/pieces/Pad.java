@@ -28,8 +28,8 @@ public class Pad extends BlockableEntity {
 		setYCenter(-100);
 	}
 
-	public void notifyMotionEvent(MotionEvent evt) {
-		thisAxis.atualize(this, evt.getX(), evt.getY());
+	public void notifyMotionEvent(float x, float y) {
+		thisAxis.atualize(this, x, y);
 	}
 
 	public void setYCenter(float f) {
@@ -45,7 +45,7 @@ public class Pad extends BlockableEntity {
 
 	@Override
 	public void processAI() {
-		// Do nothing, walls don't think
+		// Do nothing, position is handled by events
 	}
 
 	public Vector2D getNormal() {
