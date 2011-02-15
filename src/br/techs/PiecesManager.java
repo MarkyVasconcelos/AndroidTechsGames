@@ -9,13 +9,16 @@ import android.graphics.Canvas;
 
 public class PiecesManager {
 	private List<Entity> pieces;
+	
+	private List<Entity> tmpList;
 
 	public PiecesManager() {
 		pieces = new ArrayList<Entity>();
 	}
 
 	public void addPiece(Entity ent) {
-		pieces.add(ent);
+		tmpList.add(ent);
+//		pieces.add(ent);
 	}
 
 	public void draw(Canvas canvas) {
@@ -28,6 +31,8 @@ public class PiecesManager {
 	}
 
 	public void processAI() {
+		pieces.addAll(tmpList);
+		tmpList.clear();
 		for (Entity ent : pieces)
 			ent.processAI();
 	}
