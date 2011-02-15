@@ -14,6 +14,7 @@ public class PiecesManager {
 
 	public PiecesManager() {
 		pieces = new ArrayList<Entity>();
+		tmpList = new ArrayList<Entity>();
 	}
 
 	public void addPiece(Entity ent) {
