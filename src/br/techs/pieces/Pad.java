@@ -1,39 +1,30 @@
 package br.techs.pieces;
 
-import br.techs.math.Vector2D;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.view.MotionEvent;
+import br.techs.math.Vector2D;
 
 public class Pad extends BlockableEntity {
 	private Paint wallPaint;
-	private Vector2D normal;
 
 	private int defaultDistanceFromAxis;
 
 	private Axis thisAxis;
 
 	public Pad(Vector2D normal, Axis axis, int defaultDistance) {
-		super(null);
+		super(new Rect(), normal);
 		wallPaint = new Paint();
 		wallPaint.setColor(Color.GRAY);
-
-		this.normal = normal;
 
 		thisAxis = axis;
 		this.defaultDistanceFromAxis = defaultDistance;
 
-		setYCenter(-100);
 	}
 
 	public void notifyMotionEvent(float x, float y) {
 		thisAxis.atualize(this, x, y);
-	}
-
-	public void setYCenter(float f) {
-		setBounds(new Rect(80, (int) f - 100, 90, (int) f + 100));
 	}
 
 	@Override
@@ -46,10 +37,6 @@ public class Pad extends BlockableEntity {
 	@Override
 	public void processAI() {
 		// Do nothing, position is handled by events
-	}
-
-	public Vector2D getNormal() {
-		return normal;
 	}
 
 	public enum Axis {

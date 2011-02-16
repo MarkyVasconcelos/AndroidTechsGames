@@ -1,23 +1,19 @@
 package br.techs.pieces;
 
-import br.techs.math.Vector2D;
-import br.techs.pieces.Wall.HitListener;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import br.techs.math.Vector2D;
 
 public class Wall extends BlockableEntity {
 	private Paint wallPaint;
-	private Vector2D normal;
 	private HitListener listener;
 
 	public Wall(Rect bounds, Vector2D normal) {
-		super(bounds);
+		super(bounds, normal);
 		wallPaint = new Paint();
 		wallPaint.setColor(Color.GRAY);
-
-		this.normal = normal;
 	}
 
 	@Override
@@ -30,10 +26,6 @@ public class Wall extends BlockableEntity {
 	@Override
 	public void processAI() {
 		// Do nothing, walls don't think
-	}
-
-	public Vector2D getNormal() {
-		return normal;
 	}
 
 	public void addHitListener(HitListener listener) {

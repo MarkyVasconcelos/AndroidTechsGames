@@ -1,20 +1,21 @@
 package br.techs;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import br.techs.pieces.Entity;
-
 import android.graphics.Canvas;
+import br.techs.pieces.Entity;
 
 public class PiecesManager {
 	private List<Entity> pieces;
 	
-	private List<Entity> tmpList;
+	private Collection<Entity> tmpList;
 
 	public PiecesManager() {
 		pieces = new ArrayList<Entity>();
-		tmpList = new ArrayList<Entity>();
+		tmpList = Collections.synchronizedCollection(new ArrayList<Entity>());
 	}
 
 	public void addPiece(Entity ent) {

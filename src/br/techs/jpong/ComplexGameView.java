@@ -20,27 +20,29 @@ import br.techs.pieces.Pad;
 import br.techs.pieces.Pad.Axis;
 import br.techs.pieces.Wall;
 
-public class GameView extends View implements Runnable {
+public class ComplexGameView extends View implements Runnable {
 	private int width = 600, height = 1024;
 	private Paint background;
 	private Handler handler;
 
 	private PiecesManager manager;
 
+	private Pad weastPad;
 	private Pad northPad;
+	private Pad eastPad;
 	private Pad southPad;
 
-	public GameView(Context context) {
+	public ComplexGameView(Context context) {
 		super(context);
 		init();
 	}
 
-	public GameView(Context context, AttributeSet attrs) {
+	public ComplexGameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
-	public GameView(Context context, AttributeSet attrs, int defStyle) {
+	public ComplexGameView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
 	}
@@ -51,8 +53,13 @@ public class GameView extends View implements Runnable {
 
 		manager = new PiecesManager();
 
-		manager.addPiece(new Ball(new Vector2D(300, 600), new Vector2D(1, 1),
-				8, manager, Color.rgb(255, 255, 255)));
+		for (int i = 0; i < 1; i++) {
+			Vector2D dir = new Vector2D(10, 8);
+
+			Ball ball = new Ball(new Vector2D(300, 600), dir.normalize(), 8,
+					manager, Color.rgb(255, 255, 255));
+			manager.addPiece(ball);
+		}
 
 		manager.addPiece(new Wall(new Rect(0, 0, 10, height),
 				new Vector2D(1, 0)));
@@ -64,10 +71,16 @@ public class GameView extends View implements Runnable {
 				new Vector2D(0, 1));
 		manager.addPiece(south);
 
+		// weastPad = new Pad(new Vector2D(1, 0), Axis.Y_AXIS, 80);
+		// manager.addPiece(weastPad);
 		northPad = new Pad(new Vector2D(0, -1), Axis.X_AXIS, 80);
 		manager.addPiece(northPad);
+		// eastPad = new Pad(new Vector2D(-1, 0), Axis.Y_AXIS, 520);
+		// manager.addPiece(eastPad);
 		southPad = new Pad(new Vector2D(0, 1), Axis.X_AXIS, 944);
 		manager.addPiece(southPad);
+
+		manager.addPiece(new Scoreboard(north, south));
 	}
 
 	public void onDraw(Canvas canvas) {
@@ -77,10 +90,27 @@ public class GameView extends View implements Runnable {
 		canvas.restore();
 	}
 
+	private void createBall() {
+		Random rdm = new Random();
+
+		Vector2D vec = new Vector2D(10, 10);
+		vec.rotateMe(rdm.nextInt(361));
+
+		Ball ball = new Ball(new Vector2D(300, 600), vec.normalize(),
+				3 + rdm.nextInt(7), manager, Color.rgb(50+rdm.nextInt(206),
+						50+rdm.nextInt(206), 50+rdm.nextInt(206)));
+
+		manager.addPiece(ball);
+	}
+
+	private int loops = 1;
+
 	@Override
 	public void run() {
 		while (true) {
 			try {
+				if (loops % 500 == 0)
+					createBall();
 				manager.processAI();
 
 				Message msg = new Message();
@@ -88,6 +118,7 @@ public class GameView extends View implements Runnable {
 				handler.sendMessage(msg);
 
 				Thread.sleep(10);
+				loops++;
 			} catch (Exception e) {
 			}
 		}
@@ -100,10 +131,13 @@ public class GameView extends View implements Runnable {
 	public boolean onTouchEvent(MotionEvent evt) {
 		for (int i = 0; i < evt.getPointerCount(); i++) {
 			float y = evt.getY(i);
-			if (y > 612)
+			if (y > 612) {
+				// eastPad.notifyMotionEvent(evt.getX(i), evt.getY(i));
 				southPad.notifyMotionEvent(evt.getX(i), evt.getY(i));
-			else
+			} else {
+				// weastPad.notifyMotionEvent(evt.getX(i), evt.getY(i));
 				northPad.notifyMotionEvent(evt.getX(i), evt.getY(i));
+			}
 		}
 
 		return true;

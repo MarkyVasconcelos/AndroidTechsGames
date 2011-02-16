@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Rect;
 import br.techs.pieces.Entity;
 import br.techs.pieces.Wall;
 import br.techs.pieces.Wall.HitListener;
