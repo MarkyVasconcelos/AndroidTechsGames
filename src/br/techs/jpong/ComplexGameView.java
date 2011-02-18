@@ -3,6 +3,7 @@ package br.techs.jpong;
 import java.util.Random;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import br.techs.PiecesManager;
+import br.techs.R;
 import br.techs.hud.Scoreboard;
 import br.techs.math.Vector2D;
 import br.techs.pieces.Ball;
@@ -57,7 +59,9 @@ public class ComplexGameView extends View implements Runnable {
 			Vector2D dir = new Vector2D(10, 8);
 
 			Ball ball = new Ball(new Vector2D(300, 600), dir.normalize(), 8,
-					manager, Color.rgb(255, 255, 255));
+					manager, Color.rgb(255, 255, 255),
+					BitmapFactory.decodeResource(getResources(),
+							R.drawable.ball));
 			manager.addPiece(ball);
 		}
 
@@ -97,8 +101,9 @@ public class ComplexGameView extends View implements Runnable {
 		vec.rotateMe(rdm.nextInt(361));
 
 		Ball ball = new Ball(new Vector2D(300, 600), vec.normalize(),
-				3 + rdm.nextInt(7), manager, Color.rgb(50+rdm.nextInt(206),
-						50+rdm.nextInt(206), 50+rdm.nextInt(206)));
+				3 + rdm.nextInt(7), manager, Color.rgb(50 + rdm.nextInt(206),
+						50 + rdm.nextInt(206), 50 + rdm.nextInt(206)),
+				BitmapFactory.decodeResource(getResources(), R.drawable.ball));
 
 		manager.addPiece(ball);
 	}

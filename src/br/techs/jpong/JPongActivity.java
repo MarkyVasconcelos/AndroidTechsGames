@@ -5,12 +5,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class JPongActivity extends Activity {
 	private static final int REFRESH = 1;
 	
 	private Handler guiRefresher;
-	private GameView gameView;
+	private ComplexGameView gameView;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -18,8 +19,7 @@ public class JPongActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.jpong);
 		
-		
-		gameView = (GameView) findViewById(R.id.gameView);
+		gameView = (ComplexGameView) findViewById(R.id.gameView);
 		
 		guiRefresher = new Handler(){
 			public void handleMessage(Message msg){
@@ -37,5 +37,9 @@ public class JPongActivity extends Activity {
 		t.setDaemon(true);
 		t.start();
 		//t.run();
+	}
+	
+	public void throwMe(){
+		throw null;
 	}
 }

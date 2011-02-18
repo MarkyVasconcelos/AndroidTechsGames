@@ -52,7 +52,7 @@ public class GameView extends View implements Runnable {
 		manager = new PiecesManager();
 
 		manager.addPiece(new Ball(new Vector2D(300, 600), new Vector2D(1, 1),
-				8, manager, Color.rgb(255, 255, 255)));
+				8, manager, Color.rgb(255, 255, 255),null));
 
 		manager.addPiece(new Wall(new Rect(0, 0, 10, height),
 				new Vector2D(1, 0)));
@@ -82,7 +82,8 @@ public class GameView extends View implements Runnable {
 		while (true) {
 			try {
 				manager.processAI();
-
+				
+				//invalidate();
 				Message msg = new Message();
 				msg.what = 1;
 				handler.sendMessage(msg);

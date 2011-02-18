@@ -1,5 +1,7 @@
 package br.techs.pieces;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +17,8 @@ public class Ball extends Entity {
 	private float speed;
 
 	private PiecesManager pieces;
+	
+	private Bitmap image;
 
 	public Ball(Vector2D pos, Vector2D dir, float speed) {
 		super(new Rect());
@@ -26,9 +30,9 @@ public class Ball extends Entity {
 		paint = new Paint();
 		paint.setColor(Color.RED);
 	}
-
+	
 	public Ball(Vector2D pos, Vector2D dir, float speed, PiecesManager manager,
-			int color) {
+			int color,Bitmap image) {
 		super(new Rect());
 
 		this.pos = pos;
@@ -39,6 +43,7 @@ public class Ball extends Entity {
 		paint.setColor(color);
 
 		pieces = manager;
+		this.image = image;
 	}
 
 	public void setPiecesManager(PiecesManager manager) {
@@ -48,7 +53,8 @@ public class Ball extends Entity {
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.save();
-		canvas.drawCircle(pos.getX(), pos.getY(), 10, paint);
+		canvas.drawBitmap(image, pos.getX(),pos.getY(), paint);
+//		canvas.drawCircle(pos.getX(), pos.getY(), 10, paint);
 		canvas.restore();
 	}
 
